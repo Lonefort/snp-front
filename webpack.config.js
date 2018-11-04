@@ -3,6 +3,7 @@ const webpack = require('webpack');
 
 module.exports = {
   devtool: 'eval',
+  mode: 'development',
   entry: [
     'webpack-dev-server/client?http://localhost:3000',
     './src/index.jsx'
@@ -13,7 +14,7 @@ module.exports = {
     stats: 'minimal',
     contentBase: '/',
     hot: true,
-    disableHostCheck: true,
+    public: 'https://snp-front.herokuapp.com/',
     compress: true,
     watchContentBase: true,
   },
