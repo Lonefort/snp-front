@@ -44,7 +44,7 @@ class OrderForm extends Component {
         }
         if (!Object.values(data).some(val => !val)) {
           // Put the API call here
-          fetch('http://localhost:8080/orders', {
+          fetch('https://snp-restfull.herokuapp.com/orders', {
             method: 'POST',
             headers:{
               'Content-Type': 'application/json',

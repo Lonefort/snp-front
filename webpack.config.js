@@ -1,5 +1,5 @@
-var path = require('path');
-var webpack = require('webpack');
+const path = require('path');
+const webpack = require('webpack');
 
 module.exports = {
   devtool: 'eval',
@@ -7,13 +7,21 @@ module.exports = {
     'webpack-dev-server/client?http://localhost:3000',
     './src/index.jsx'
   ],
+  devServer:{
+    historyApiFallback: true,
+    publicPath: '/',
+    stats: 'minimal',
+    contentBase: '/',
+    hot: true,
+    watchContentBase: true,
+  },
   output: {
     path: path.join(__dirname, 'dist'),
     filename: 'bundle.js',
-    publicPath: '/build/'
+    publicPath: '/',
   },
   module: {
-    loaders: [
+    rules: [
       {
         test: /\.jsx?$/,
         loaders: ['babel-loader'],
@@ -21,7 +29,7 @@ module.exports = {
       },
       {
         test: /\.scss$/,
-        loaders: ["style-loader", "css-loader", "sass-loader"]
+        loaders: ['style-loader', 'css-loader', 'sass-loader']
       }
     ]
   }

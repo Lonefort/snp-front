@@ -10,7 +10,7 @@ class ViewOrders extends Component {
     }
   }
   componentDidMount () {
-    fetch('http://localhost:8080/orders', {
+    fetch('https://snp-restfull.herokuapp.com/orders', {
       type: 'GET'
     })
     .then(response => response.json())
