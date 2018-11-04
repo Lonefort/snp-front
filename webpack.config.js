@@ -9,12 +9,12 @@ module.exports = {
     './src/index.jsx'
   ],
   devServer:{
+    disableHostCheck: true,
     historyApiFallback: true,
     publicPath: '/',
     stats: 'minimal',
     contentBase: '/',
     hot: true,
-    public: 'https://snp-front.herokuapp.com/',
     compress: true,
     watchContentBase: true,
   },
