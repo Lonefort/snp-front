@@ -13,6 +13,8 @@ module.exports = {
     stats: 'minimal',
     contentBase: '/',
     hot: true,
+    disableHostCheck: true,
+    compress: true,
     watchContentBase: true,
   },
   output: {
