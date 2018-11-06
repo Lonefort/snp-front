@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import NavBar from './NavBar.jsx'
+import { handleAddressValidation, postShippingOrder } from '../api/apiRequests'
 
 class OrderForm extends Component {
   constructor (props) {
@@ -21,12 +22,8 @@ class OrderForm extends Component {
 
     submitHandler (e) {
       e.preventDefault();
-      const avoidCorsServerless = 'https://cors-anywhere.herokuapp.com/'
-      const url = `${avoidCorsServerless}https://www.yaddress.net/api/Address?AddressLine1=${this.state.address}&AddressLine2=${this.state.city}%20${this.state.zip}&UserKey=`
       e.target.className.includes('was-validated') ? '' : e.target.className += ' was-validated';
-      fetch(url)
-        .then(response => response.json())
-        .then(data => this.sendDataToAPI(data))
+      handleAddressValidation(this.state.address, this.state.city, this.state.zip).then(data => this.sendDataToAPI(data))
     }
 
     sendDataToAPI (data) {
@@ -44,28 +41,26 @@ class OrderForm extends Component {
         }
         if (!Object.values(data).some(val => !val)) {
           // Put the API call here
-          fetch('https://snp-restfull.herokuapp.com/orders', {
-            method: 'POST',
-            headers:{
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(data),
-          }).then(res => res.json())
-          .then(response => console.log('Success:', JSON.stringify(response)))
-          .catch(error => console.error('Error:', error));
+          postShippingOrder(data)
         } else {
           alert('Fill up all fields please')
         }
       }
     }
 
+    filterPhoneNumberInput (input) {
+      const allowNumbers = /^[0-9\b]+$/ // Regexp to allow just numbers in phoneNumber input
+      return allowNumbers.test(input)
+    }
+
     changeHandler (e) {
+      const inputValue = e.target.value
       if (e.target.name === 'phoneNumber') {
-        if (/^[0-9\b]+$/.test(e.target.value) || e.target.value == ''){
-          this.setState({ phoneNumber: e.target.value })
+        if ( this.filterPhoneNumberInput(inputValue) || inputValue == ''){
+          this.setState({ phoneNumber: inputValue })
         }
       } else {
-        this.setState({ ...this.state, [e.target.name]: e.target.value })
+        this.setState({ ...this.state, [e.target.name]: inputValue })
       }
     }
 
@@ -190,7 +185,7 @@ class OrderForm extends Component {
             </div>
 
             <div className="form-group">
-              <label htmlFor="specialNotes">Example textarea</label>
+              <label htmlFor="specialNotes">Special Notes</label>
               <textarea
                 className="form-control"
                 id="specialNotes"

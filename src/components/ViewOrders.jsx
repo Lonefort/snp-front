@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import NavBar from './NavBar.jsx'
+import { getShippingOrders } from '../api/apiRequests'
 
 class ViewOrders extends Component {
   constructor (props) {
@@ -10,11 +11,7 @@ class ViewOrders extends Component {
     }
   }
   componentDidMount () {
-    fetch('https://snp-restfull.herokuapp.com/orders', {
-      type: 'GET'
-    })
-    .then(response => response.json())
-    .then(data => this.setState({ orders: data }))
+    getShippingOrders().then(data => this.setState({ orders: data }))
   }
   handleOrders () {
     const untrackedFields = ['__v', '_id', 'Created_date']
